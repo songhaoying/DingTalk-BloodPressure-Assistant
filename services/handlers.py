@@ -20,6 +20,10 @@ class CallbackHandler(BaseCallbackHandler):
         Convert UTC time string to CST (UTC+8) string.
         Input format: YYYY-MM-DD HH:MM:SS
         """
+        # If SQL Server, time is already local (CST), no conversion needed
+        if self.db.db_type == "sqlserver":
+            return time_str
+
         try:
             # Parse UTC time
             utc_time = datetime.strptime(time_str, "%Y-%m-%d %H:%M:%S")
@@ -135,7 +139,7 @@ class CallbackHandler(BaseCallbackHandler):
                        f"舒张压 (低压): {dia}\n"
                        f"脉搏: {pulse}\n"
                        f"结果: **{bp_result}**\n\n"
-                       f"已保存到您的历史记录。")
+                       f"已保存到您的历史记录。回复\"历史\" 查看您的记录。")
                 
                 await self.reply_text(sender_id, msg, session_webhook, msg_type="markdown", title="血压分析结果")
 
@@ -160,7 +164,7 @@ class CallbackHandler(BaseCallbackHandler):
                 time_str = self._format_time_to_cst(r[3])
                 
                 res_str = f" **{r[5]}**" if r[5] else ""
-                lines.append(f"- {time_str}\n  - 高压: {r[0]} | 低压: {r[1]} | 脉搏: {r[2]}{res_str}")
+                lines.append(f"- {time_str}\n  - 高压: {r[0]} | 低压: {r[1]} | 脉搏: {r[2]}（{res_str}）")
             response_text = "\n".join(lines)
         
         await self.reply_text(user_id, response_text, webhook_url, msg_type="markdown", title="历史记录")
