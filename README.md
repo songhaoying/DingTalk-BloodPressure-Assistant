@@ -1,4 +1,4 @@
-# 🏥 DingTalk Blood Pressure Robot (钉钉血压监测机器人)
+# 🏥 DingTalk-BloodPressure-Assistant (钉钉血压记录助手)
 
 这是一个基于钉钉机器人和阿里云大模型（Qwen-VL）的智能血压管理助手。员工可以通过钉钉直接发送电子血压计的照片，机器人会自动识别屏幕上的读数（收缩压、舒张压、脉搏）并保存到数据库，方便员工随时查看历史记录。
 
