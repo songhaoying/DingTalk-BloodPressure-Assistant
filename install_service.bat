@@ -1,7 +1,8 @@
 @echo off
 setlocal
 
-set SERVICE_NAME=DingRobot
+REM 使用英文服务名以避免编码问题
+set "SERVICE_NAME=DingRobot"
 set "PYTHON_PATH=%~dp0.venv\Scripts\python.exe"
 set "MAIN_SCRIPT=%~dp0main.py"
 set "APP_DIR=%~dp0"
