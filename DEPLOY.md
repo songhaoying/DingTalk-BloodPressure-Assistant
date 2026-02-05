@@ -164,7 +164,29 @@ sudo systemctl start ding_robot
 sudo systemctl status ding_robot
 ```
 
-### 4.7 切换至 SQL Server (可选)
+### 4.7 Windows 服务部署 (后台运行)
+推荐使用 **NSSM (Non-Sucking Service Manager)** 将机器人作为 Windows 服务运行，实现开机自启和自动重启。
+
+1. **下载 NSSM**:
+   - 访问 [NSSM 官网](https://nssm.cc/download) 下载最新版 (如 `nssm-2.24.zip`)。
+   - 解压后，将 `win64` (或 `win32`) 目录下的 `nssm.exe` 复制到项目根目录，或添加到系统环境变量 PATH 中。
+
+2. **使用脚本安装**:
+   以 **管理员身份** 运行 `install_service.bat`。
+
+   ```bat
+   install_service.bat
+   ```
+
+3. **手动管理服务**:
+   - 启动: `nssm start DingRobot`
+   - 停止: `nssm stop DingRobot`
+   - 重启: `nssm restart DingRobot`
+   - 查看状态: `nssm status DingRobot`
+   - 编辑配置: `nssm edit DingRobot`
+   - 删除服务: `nssm remove DingRobot`
+
+### 4.8 切换至 SQL Server (可选)
 如果需要使用 SQL Server 存储数据：
 
 1. **安装 ODBC 驱动**:
