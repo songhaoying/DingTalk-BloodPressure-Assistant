@@ -1,0 +1,4 @@
+dingtalk-stream
+dashscope
+python-dotenv
+Pillow
