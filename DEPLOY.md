@@ -17,6 +17,7 @@
 - **服务器**: 一台 Linux/macOS/Windows 服务器（推荐 Ubuntu/Debian）。
   - **网络要求**: 需要能访问外网（连接钉钉和阿里云接口），**不需要公网 IP**（使用 Stream 模式）。
 - **Python**: 3.8 或更高版本。
+- **数据库 (可选)**: SQL Server 2016+ (默认使用内置 SQLite，如需使用 SQL Server 请提前准备数据库实例及 ODBC 驱动)。
 - **账号**:
   - 钉钉企业管理员/开发者权限。
   - 阿里云账号（开通 DashScope 模型服务）。
@@ -106,6 +107,16 @@ DINGTALK_AGENT_ID=123456789
 
 # 阿里云配置
 DASHSCOPE_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxx
+
+# 数据库配置 (可选, 默认为 sqlite)
+# DB_TYPE=sqlite
+
+# SQL Server 配置 (当 DB_TYPE=sqlserver 时必填)
+# SQLSERVER_HOST=localhost
+# SQLSERVER_PORT=1433
+# SQLSERVER_USER=sa
+# SQLSERVER_PASSWORD=your_password
+# SQLSERVER_DB=DingTalkBP
 ```
 
 ### 4.5 运行测试
@@ -153,6 +164,23 @@ sudo systemctl start ding_robot
 sudo systemctl status ding_robot
 ```
 
+### 4.7 切换至 SQL Server (可选)
+如果需要使用 SQL Server 存储数据：
+
+1. **安装 ODBC 驱动**:
+   - 确保服务器已安装 Microsoft ODBC Driver for SQL Server (如 `msodbcsql17` 或 `msodbcsql18`)。
+   - 依赖包通常包括 `unixodbc-dev` (Linux) 或 `unixodbc` (macOS)。
+   
+2. **修改配置**:
+   编辑 `.env` 文件，设置 `DB_TYPE=sqlserver` 并填入数据库连接信息。
+
+3. **数据迁移**:
+   如果已有 SQLite 数据需要迁移至 SQL Server，请运行：
+   ```bash
+   python migrate_db.py
+   ```
+   *注意：迁移前请确保 SQL Server 配置正确且数据库已创建（表会自动创建）。*
+
 ---
 
 ## 5. 常见问题
@@ -168,5 +196,5 @@ sudo systemctl status ding_robot
 - 查看日志中的错误信息（如 `API Error`）。
 
 ### Q3: 数据库在哪？
-- 默认使用 SQLite，文件位于项目根目录的 `bp_data.db`。
-- 如需迁移到 SQL Server，请修改 `services/database.py` 中的连接逻辑。
+- **SQLite (默认)**: 文件位于项目根目录的 `bp_data.db`。
+- **SQL Server**: 取决于 `.env` 中的配置。如需迁移，请参考本文档 4.7 节。

@@ -14,7 +14,7 @@
 - **语言**: Python 3.8+
 - **框架**: `dingtalk-stream` (钉钉 Stream 模式 SDK)
 - **AI 模型**: 阿里云百炼 DashScope (Qwen-VL-Max)
-- **数据库**: SQLite (默认) / 可扩展为 SQL Server
+- **数据库**: SQLite (默认) / SQL Server (支持)
 - **依赖管理**: `pip` / `venv`
 
 ## 🚀 快速开始
